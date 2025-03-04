@@ -26,45 +26,50 @@
     </table>
     
     <script>
-        const sporcular = [
-            "İSA BERK KASAP", "KAAN YELALDI", "MEHMET EFE ÖZDEMİR", "İREM BOZKURT", "MERT KARUL", 
-            "MAHİR MİRAN KILINÇ", "FURKAN AYDIN", "ZEHRA GÜRBÜZ", "NİSA ERDOĞAN", "BULUT SUBAŞI", 
-            "ENSAR TAZEGÜL", "MELEK AYAZ", "NİSA NUR SARITAŞ"
-        ];
-        const yoklamaListesi = {};
+        document.addEventListener("DOMContentLoaded", function() {
+            const sporcular = [
+                "İSA BERK KASAP", "KAAN YELALDI", "MEHMET EFE ÖZDEMİR", "İREM BOZKURT", "MERT KARUL", 
+                "MAHİR MİRAN KILINÇ", "FURKAN AYDIN", "ZEHRA GÜRBÜZ", "NİSA ERDOĞAN", "BULUT SUBAŞI", 
+                "ENSAR TAZEGÜL", "MELEK AYAZ", "NİSA NUR SARITAŞ"
+            ];
+            let yoklamaListesi = {};
         
-        function yoklamaEkle() {
-            const tarih = document.getElementById("tarihSecimi").value;
-            if (!tarih) { alert("Lütfen bir tarih seçin."); return; }
-            
-            if (!yoklamaListesi[tarih]) {
-                yoklamaListesi[tarih] = sporcular.map(sporcu => ({ isim: sporcu, durum: "✗" }));
+            window.yoklamaEkle = function() {
+                const tarih = document.getElementById("tarihSecimi").value;
+                if (!tarih) {
+                    alert("Lütfen bir tarih seçin.");
+                    return;
+                }
+        
+                if (!yoklamaListesi[tarih]) {
+                    yoklamaListesi[tarih] = sporcular.map(sporcu => ({ isim: sporcu, durum: "✗" }));
+                }
+                tabloyuGuncelle(tarih);
             }
-            tabloyuGuncelle(tarih);
-        }
         
-        function tabloyuGuncelle(tarih) {
-            const tbody = document.getElementById("yoklamaBody");
-            tbody.innerHTML = "";
-            yoklamaListesi[tarih].forEach((sporcu, index) => {
-                const tr = document.createElement("tr");
-                const tdIsim = document.createElement("td");
-                tdIsim.textContent = sporcu.isim;
-                
-                const tdDurum = document.createElement("td");
-                const button = document.createElement("button");
-                button.textContent = sporcu.durum;
-                button.onclick = function() {
-                    yoklamaListesi[tarih][index].durum = button.textContent === "✓" ? "✗" : "✓";
-                    button.textContent = yoklamaListesi[tarih][index].durum;
-                };
-                tdDurum.appendChild(button);
-                
-                tr.appendChild(tdIsim);
-                tr.appendChild(tdDurum);
-                tbody.appendChild(tr);
-            });
-        }
+            function tabloyuGuncelle(tarih) {
+                const tbody = document.getElementById("yoklamaBody");
+                tbody.innerHTML = "";
+                yoklamaListesi[tarih].forEach((sporcu, index) => {
+                    const tr = document.createElement("tr");
+                    const tdIsim = document.createElement("td");
+                    tdIsim.textContent = sporcu.isim;
+        
+                    const tdDurum = document.createElement("td");
+                    const button = document.createElement("button");
+                    button.textContent = sporcu.durum;
+                    button.onclick = function() {
+                        yoklamaListesi[tarih][index].durum = button.textContent === "✓" ? "✗" : "✓";
+                        button.textContent = yoklamaListesi[tarih][index].durum;
+                    };
+                    tdDurum.appendChild(button);
+        
+                    tr.appendChild(tdIsim);
+                    tr.appendChild(tdDurum);
+                    tbody.appendChild(tr);
+                });
+            }
+        });
     </script>
 </body>
 </html>
